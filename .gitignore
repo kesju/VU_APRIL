@@ -1,3 +1,4 @@
 model_cnn_fda_vu_v1/
 zive_test_data/
 token
+__pycache__/
