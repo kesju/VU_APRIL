@@ -186,10 +186,11 @@ def read_rec_attrib(rec_dir, SubjCode):
     return atr_sample, atr_symbol
 
 
-def get_rec_Id(rec_dir, userNr, recordingNr):  #  netaisytas ////////////////////////
+def get_rec_Id(rec_dir, userNr, file_name):  #  netaisytas ////////////////////////
     # Patikriname, ar df_transl egzistuoja. 
     if (userNr < 1000):
-         return userNr, recordingNr
+         return userNr, None
+
     file = Path(rec_dir, 'df_transl.csv')
     if (file.exists()):
         # Nuskaitome vardų žodyną iš rec_dir aplanko
@@ -197,12 +198,14 @@ def get_rec_Id(rec_dir, userNr, recordingNr):  #  netaisytas ///////////////////
         df_transl = pd.read_csv(file_path, index_col=0)
 #       print(df_transl) 
          # Panaudodami df masyvą df_transl su įrašų numeriais iš įrašų eilės numerių gauname ZIVE numerius
-        row = df_transl.loc[(df_transl['userNr'] == userNr) & (df_transl['recordingNr'] == recordingNr)]
+        row = df_transl.loc[(df_transl['userNr'] == userNr)]
         if row.empty:
             print("Klaida!")
             return None, None
         else:
-            return row['userId'].values[0], row['recordingId'].values[0]
+            userId = row['userId'].values[0]
+            recordingId = None # reikia nuskaityti is json
+            return userId, recordingId
     else:
         print("df_transl neegzistuoja")
 
