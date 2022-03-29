@@ -85,6 +85,8 @@ def get_freq_unique_values(y, cols_pattern=None):
 
 def create_SubjCode(userNr, file_name):
     """
+    Atnaujintas variantas, po to, kaip padaryti pakeitimai failų varduose 2022 03 26
+    
     zive atveju: SubjCode = 'userNr' + '.' + file_name, kur userNr >= 1000,
     pvz. SubjCode = '1000.1631103.511'
     mit2zive atveju: SubjCode = 'userNr',  kur userNr < 1000,
@@ -106,13 +108,13 @@ def create_SubjCode(userNr, file_name):
 
 def split_SubjCode(SubjCode):
     """
-    # Atnaujintas variantas, po to, kaip padaryti pakeitimai failų varduose 2022 03 26
-    #
-    # zive atveju: SubjCode = 'userNr' + '.' + file_name, kur userNr >= 1000,
-    # pvz. SubjCode = '1000.1631103.511'
-    # mit2zive atveju: SubjCode = 'userNr',  kur userNr < 1000,
-    # pvz. SubjCode = '101'
-    #   https://www.adamsmith.haus/python/answers/how-to-get-the-part-of-a-string-before-a-specific-character-in-python
+    Atnaujintas variantas, po to, kaip padaryti pakeitimai failų varduose 2022 03 26
+    
+    zive atveju: SubjCode = 'userNr' + '.' + file_name, kur userNr >= 1000,
+    pvz. SubjCode = '1000.1631103.511'
+    mit2zive atveju: SubjCode = 'userNr',  kur userNr < 1000,
+    pvz. SubjCode = '101'
+    https://www.adamsmith.haus/python/answers/how-to-get-the-part-of-a-string-before-a-specific-character-in-python
     Parameters
     ------------
         SubjCode: str
@@ -236,6 +238,15 @@ def zive_read_df_rpeaks(db_path, file_name):
     df_rpeaks = pd.json_normalize(data, record_path =['rpeaks'])
     return df_rpeaks
 
+def zive_read_df_data(file_path, name):
+    df_data = pd.DataFrame()
+    path = Path(file_path)
+    # https://www.askpython.com/python-modules/check-if-file-exists-in-python
+    if (path.exists()):
+        with open(file_path,'r', encoding='UTF-8', errors = 'ignore') as f:
+            data = json.loads(f.read())
+        df_data = pd.json_normalize(data, record_path =[name])
+    return df_data
 
 def get_annotations_table(all_beats_attr, ind_lst=None, cols_pattern=None):
 
