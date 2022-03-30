@@ -233,7 +233,12 @@ def get_rec_userId(rec_dir, userNr):
     else:
         print("df_transl neegzistuoja")
 
-
+def read_rec(rec_dir, SubjCode):
+    file_path = Path(rec_dir, str(SubjCode) + '.npy')
+    signal = np.load(file_path, mmap_mode='r')
+    print(f"SubjCode: {SubjCode}  signal.shape: {signal.shape}")
+    return signal
+    
 def zive_read_df_rpeaks(db_path, file_name):
     file_path = Path(db_path, file_name + '.json')
     with open(file_path,'r') as f:
