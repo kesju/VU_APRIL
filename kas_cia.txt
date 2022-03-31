@@ -1,4 +1,7 @@
-Čia sudėtos visos naujausios programos, dirbančios su VU algoritmais, po to, kai buvo pakeista Zive talpykla. Darbas pradėtas 2022 03 24.
+Čia sudėtos visos naujausios programos, dirbančios su VU algoritmais, po to, kai buvo pakeista Zive talpykla.
+Darbas pradėtas 2022 03 24.
+
+Visos programos saugomos github.com VU_APRIL projekte (kesju/Raktas135)
 
 Bendra schema:
  
