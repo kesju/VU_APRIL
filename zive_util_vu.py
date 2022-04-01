@@ -311,7 +311,48 @@ def print_annotations_table(labels_table, labels_sums, Flag1 = False, Flag2 = Fa
     else:
         print("Total: ", labels_sums.loc['All'])
 
+def get_annotations_distribution(df_list, rec_dir, beats_annot):
+    # Nustatomas anotacijų pasiskirstymas per visus įrašus.
+    # Pasiruošimas ciklui per pacientų įrašus
+    labels_rec_all = pd.DataFrame(columns=beats_annot.keys(),dtype=int)
+    labels_rec_all.insert(0,"file_name",0)
+    labels_rec_all = labels_rec_all.astype({"file_name":str})
+    labels_rec_all.insert(1,"userId",0)
+    labels_rec_all = labels_rec_all.astype({"userId":str})
 
+    labels_rec = []
+
+    # Ciklas per pacientų įrašus
+    for ind in df_list.index:
+        file_name = df_list.loc[ind, "file_name"]
+        labels_rec = np.zeros(labels_rec_all.shape[1], dtype=int)
+        file_name = df_list.loc[ind, "file_name"]
+
+        #  load data using Python JSON module
+        file_path = Path(rec_dir, file_name + '.json')
+        with open(file_path,'r', encoding='UTF-8', errors = 'ignore') as f:
+            data = json.loads(f.read())
+
+        df_rpeaks = pd.json_normalize(data, record_path =['rpeaks'])
+
+        atr_sample = df_rpeaks['sampleIndex'].to_numpy()
+        atr_symbol = df_rpeaks['annotationValue'].to_numpy()
+
+        # Ciklas per visas paciento įrašo anotacijas (simbolius)
+        for symbol in atr_symbol:
+            # Gaunamas anotacijos simbolio numeris anotacijų sąraše
+            label = beats_annot.get(symbol)
+            if (label == None):
+                continue
+            labels_rec[label] +=1
+
+        # Sumuojame į bendrą masyvą
+        dict = {'file_name':file_name, 'userId': data['userId'], 'N':labels_rec[0], 'S':labels_rec[1],
+         'V':labels_rec[2], 'U':labels_rec[3]}
+        labels_rec_all = labels_rec_all.append(dict, ignore_index = True)
+
+    # Ciklo per pacientų įrašus pabaiga
+    return labels_rec_all
 
 
 def cm2df(cm, labels):
