@@ -35,14 +35,14 @@ list.csv
     juos į aplanką records_selected, sudaro atrinktų įrašų ir jų atributų sąrašą formatu list.json:
  
 records_selected:
-xxxxxxx.xxx
-xxxxxxx.xxx.json
+xxxxxxx.xxx -> EKG įrašo failas
+xxxxxxx.xxx.json -> EKG įrašo atributų failas
 ................
 ................
 ................
 xxxxxxx.xxx
 xxxxxxx.xxx.json
-list.json
+list.json -> EKG įrašų atributų sąrašas
 list.csv
  
 4.	2_zive_analiz_list_v2.ipynb išveda iš list.json sąrašą patogesnėje formoje, su anotacijų pasiskirstymu per įrašus ir
@@ -56,33 +56,31 @@ list.csv
     originalaus paciento kodo userID atkūrimui.
     Visi failai perpavadinami naujais vardais ir perrašomi į aplanką records_npy, keičiant duomenų formatą į numpy formatą ir 
     įtraukiant failo vardą SubjCode į sąrašą list.json Suformuojamas informacinis failas info_create_z.json su su SubjCode
-    sąrašu bei failų sąrašas list.json, abu jie įrašomi į diską.
+    sąrašu bei EKG įrašų atributų sąrašas list.json, abu jie įrašomi į diską.
  
 records_npy:
-yyyyyy.npy
-yyyyyy.npy
-yyyyyy.npy
+yyyyyy.npy -> EKG įrašo failas
+yyyyyy.json -> EKG įrašo atributų failas
 ..........
 ..........
 ..........
 yyyyyy.npy
-yyyyyy.npy
+yyyyyy.json
 df_transl.csv
 info_create_z.json
-list_npy.json  -> modifikuotas pridedant įrašų virtualius failo vardus SubjCode
+list_npy.json  -> modifikuotas EKG įrašų atributų sąrašas pridedant įrašų virtualius failo vardus SubjCode
  
  
 6.	4_zive_creat_beats_attrib_v3.ipynb - sukuria all_beats_attr, suformuoja label, RRl, RRr. Naudoja list.json,
     info_create_z.json
  
 yyyyyy.npy
-yyyyyy.npy
-yyyyyy.npy
+yyyyyy.json
 ..........
 ..........
 ..........
 yyyyyy.npy
-yyyyyy.npy
+yyyyyy.json
 df_transl.csv
 info_create_z.json
 list_npy.json

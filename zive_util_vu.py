@@ -83,28 +83,86 @@ def get_freq_unique_values(y, cols_pattern=None):
     return unique, counts, int(counts.sum())
 
 
-def create_SubjCode(userNr, file_name):
+def get_recNr(rec_dir, userId, file_name):
+    """
+    Skriptas Zive ekg įrašo identikatoriams userId, file_name pakeisti į virtualią numeraciją:
+    userId pakeičiamas į userNr - skaičiumi, pradedant nuo 1000, įrašo įdentifikatorius file_name pakeičiamas
+    į įrašo eilės numerį registrationNr, lygų 0,1,... ir suformuojamas virtualus įrašo failo vardad SubjCode.
+    Konversijai ir saugojimui panaudojamas df masyvas df_transl
+    Jei paciento Nr nėra - užvedamas įrašas
+
+    Perdarytas iš varianto, kuriame buvo naudojamas recordingID. Pakeistas į file_name
+    """
+    
+    # Patikriname, ar df_transl egzistuoja. Jei ne, sukuriame ir įrašome pirmą įraša
+    file_path = Path(rec_dir, 'df_transl.csv')
+    if (not file_path.exists()):
+        # Paruošiame masyvą - žodyną numerių vertimui iš userId, registrationId į userNr, registrationNr ir atgal
+        # ir įrašome į diską
+        first_rec = {'userId':[userId], 'file_name':[file_name], 'userNr':[1000], 'recordingNr':[0]}
+        df_transl = pd.DataFrame(first_rec)
+        file_path = Path(rec_dir, 'df_transl.csv')
+        df_transl.to_csv(file_path)
+        # print(df_transl)
+        return df_transl.loc[0, 'userNr'], df_transl.loc[0, 'recordingNr']
+
+    # Jei egzistuoja, nuskaitome vardų žodyną iš rec_dir aplanko
+    file_path = Path(rec_dir, 'df_transl.csv')
+    df_transl = pd.read_csv(file_path, index_col=0)
+    # print(df_transl)
+    # Ieškome, ar yra įrašas su userId
+    # Jei userId nerandame, sukuriame naują įrašą su userId, recordingId, userNr, recordingNr 
+    if (df_transl.loc[(df_transl['userId'] == userId)]).empty:
+        userNr = df_transl.loc[len(df_transl)-1, 'userNr'] + 1
+        # print(f"{userNr=}")
+        new_row = {'userId':userId, 'file_name':file_name, 'userNr':userNr, 'recordingNr':0}
+        df_transl = df_transl.append(new_row, ignore_index=True)
+        file_path = Path(rec_dir, 'df_transl.csv')
+        df_transl.to_csv(file_path)
+        return userNr, 0
+    
+    # Jei radus userId, randame kad šio paciento įrašo file_name jau yra, su įrašais nieko nedarome
+    row = df_transl.loc[(df_transl['userId'] == userId) & (df_transl['file_name'] == file_name)]
+    if not row.empty:
+        # print(row)
+        return row['userNr'].values[0], row['recordingNr'].values[0]
+    else:
+    # Jei šio paciento įrašo su file_name nėra, formuojame įrašą
+        rows = df_transl.loc[(df_transl['userId'] == userId)]
+        recordingNr = max(rows['recordingNr'].to_list()) + 1
+        userNr = rows['userNr'].values[0]
+        new_row = {'userId':userId, 'file_name':file_name, 'userNr':userNr, 'recordingNr':recordingNr}
+        df_transl = df_transl.append(new_row, ignore_index=True)
+        file_path = Path(rec_dir, 'df_transl.csv')
+        df_transl.to_csv(file_path)
+        return userNr, recordingNr    
+    
+
+def create_SubjCode(userNr, recordingNr):
     """
     Atnaujintas variantas, po to, kaip padaryti pakeitimai failų varduose 2022 03 26
     
-    zive atveju: SubjCode = 'userNr' + '.' + file_name, kur userNr >= 1000,
-    pvz. SubjCode = '1000.1631103.511'
-    mit2zive atveju: SubjCode = 'userNr',  kur userNr < 1000,
-    pvz. SubjCode = '101'
+    zive atveju: SubjCode = userNr + recordingNr, kur userNr >= 1000,
+    pvz. SubjCode = 10001
+    mit2zive atveju: SubjCode = userNr,  kur userNr < 1000,
+    pvz. SubjCode = 101
     Parameters
     ------------
         userNr: int
-        file_name: str
+        recordingNr: int
     Return
     -----------
-        SubjCode : str
+        SubjCode : int
     """      
-
+    # SubjCode = userNr + recordingNr
+    # pvz. SubjCode = 10002
     if (userNr < 1000):
-        return str(userNr)
+        return userNr
     else:        
-        SubjCode = str(userNr) + '.' + file_name
+        str_code = str(userNr) + str(recordingNr)   
+        SubjCode = int(str_code)  
         return SubjCode
+
 
 def split_SubjCode(SubjCode):
     """
