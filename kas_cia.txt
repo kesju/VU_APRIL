@@ -84,7 +84,8 @@ yyyyyy.json
 df_transl.csv
 info_create_z.json
 list_npy.json
-all_beats_attr.csv
+train_beats_attr.csv
+test_beats_attr.csv
  
 
 

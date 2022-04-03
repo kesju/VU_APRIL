@@ -113,8 +113,7 @@ def get_recNr(rec_dir, userId, file_name):
     # Ieškome, ar yra įrašas su userId
     # Jei userId nerandame, sukuriame naują įrašą su userId, recordingId, userNr, recordingNr 
     if (df_transl.loc[(df_transl['userId'] == userId)]).empty:
-        userNr = df_transl.loc[len(df_transl)-1, 'userNr'] + 1
-        # print(f"{userNr=}")
+        userNr = df_transl['userNr'].max() + 1
         new_row = {'userId':userId, 'file_name':file_name, 'userNr':userNr, 'recordingNr':0}
         df_transl = df_transl.append(new_row, ignore_index=True)
         file_path = Path(rec_dir, 'df_transl.csv')
@@ -137,6 +136,8 @@ def get_recNr(rec_dir, userId, file_name):
         df_transl.to_csv(file_path)
         return userNr, recordingNr    
     
+
+
 
 def create_SubjCode(userNr, recordingNr):
     """
@@ -168,26 +169,31 @@ def split_SubjCode(SubjCode):
     """
     Atnaujintas variantas, po to, kaip padaryti pakeitimai failų varduose 2022 03 26
     
-    zive atveju: SubjCode = 'userNr' + '.' + file_name, kur userNr >= 1000,
-    pvz. SubjCode = '1000.1631103.511'
-    mit2zive atveju: SubjCode = 'userNr',  kur userNr < 1000,
-    pvz. SubjCode = '101'
+    zive atveju: SubjCode = int(str(userNr) + str(registrationNr)), kur userNr >= 1000,
+    pvz. SubjCode = 10001
+    mit2zive atveju: SubjCode = userNr,  kur userNr < 1000,
+    pvz. SubjCode = 101
     https://www.adamsmith.haus/python/answers/how-to-get-the-part-of-a-string-before-a-specific-character-in-python
     Parameters
     ------------
-        SubjCode: str
+        SubjCode: int
     Return
     -----------
         userNr: int
-        file_name: str
+        recordingNr: int
     """   
-
-    userNr = int(SubjCode.partition('.')[0])
-    if (userNr < 1000):
-        return userNr, None
-    else:
-        file_name = SubjCode.partition('.')[2]  
-        return userNr, file_name
+    if (SubjCode < 1000):
+        userNr = SubjCode
+        recordingNr = 0   
+        return userNr, recordingNr
+    else:        
+        str_code = str(SubjCode) 
+        chars = list(str_code)
+        str1 =""
+        userNr = int(str1.join(chars[:4]))
+        str2 =""
+        recordingNr = int(str2.join(chars[4:]))
+        return userNr, recordingNr
  
 def get_userId(rec_dir, userNr):
     """
@@ -335,7 +341,7 @@ def get_annotations_table(all_beats_attr, ind_lst=None, cols_pattern=None):
         selected_beats_attr = all_beats_attr.copy()
     # print(selected_beats_attr)
 
-    selected_beats_attr['SubjCodes'] = selected_beats_attr['userNr'].astype(str) + '.' + selected_beats_attr['file_name'].astype(str)
+    selected_beats_attr['SubjCodes'] =  selected_beats_attr['userNr'].astype(str) + selected_beats_attr['recordingNr'].astype(str)
     # print(selected_beats_attr)
 
     labels_table = pd.crosstab(index= selected_beats_attr['SubjCodes'], columns= selected_beats_attr['symbol'], margins=True)
