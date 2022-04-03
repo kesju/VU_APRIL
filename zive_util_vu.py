@@ -225,14 +225,11 @@ def get_beat_attributes(idx, all_beats_attr):
     row = all_beats_attr.loc[idx]
     return row['userNr'], row['file_name'], row['label'], row['symbol'] 
 
-
 def read_rec_attrib(rec_dir, SubjCode):
-    # Atnaujintas variantas, po to, kaip padaryti pakeitimai failų varduose 2022 03 26
     # Pritaikyta nuskaityti json informaciją tiek mit2zive, tiek zive atvejams
-
     file_path = Path(rec_dir, str(SubjCode) + '.json')
-    userNr = int(SubjCode.partition('.')[0])
-    if (userNr >= 1000): # zive atvejis
+
+    if (SubjCode > 1000): # zive atvejis
         with open(file_path,'r', encoding='UTF-8', errors = 'ignore') as f:
             data = json.loads(f.read())
         df = pd.json_normalize(data, record_path =['rpeaks'])
