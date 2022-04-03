@@ -49,40 +49,43 @@ list.csv
     pacientus. Galima naudoti tiek aplanke records, tiek aplanke records_selected
  
  
-5.	3_zive_creat_npy_v2.ipynb, panaudodama 0_zive_select_records_v2.ipynb  suformuotą aplanke records_selected sąrašą list.json,
-    sukuria naujus failų vardus SubjCode, kuriuose kartu su failo pavadinimu file_name užšifruotas paciento kodas userNr,
-    taip pat sukuriamas transliatoriaus failas df_transl.csv originalaus paciento kodo userID atkūrimui.
-    Visi failai perpavadinami naujais vardais ir perrašomi į aplanką records_npy, keičiant duomenų formatą į numpy.
-    Failų json turinys išlieka tas pats. Suformuojamas informacinis failas info_create_z.json su su SubjCode sąrašu bei
-    failų sąrašas list.json, abu jie įrašomi į diską.
+5.	3_zive_creat_npy_v3.ipynb, panaudodama 0_zive_select_records_v2.ipynb  suformuotą aplanke records_selected sąrašą list.json,
+    visiems įrašams userId pakeičiamas į userNr - skaičiumi, pradedant nuo 1000, įrašo įdentifikatorius file_name pakeičiamas
+    į įrašo eilės numerį registrationNr, lygų 0,1,... ir sukuriamas naujas failo vardas SubjCode str(userNr) + str(registrationNr)
+    Konversijai ir saugojimui panaudojamas transliatoriaus masyvas df_transl (failas transl.csv), kuris panaudojamas
+    originalaus paciento kodo userID atkūrimui.
+    Visi failai perpavadinami naujais vardais ir perrašomi į aplanką records_npy, keičiant duomenų formatą į numpy formatą ir 
+    įtraukiant failo vardą SubjCode į sąrašą list.json Suformuojamas informacinis failas info_create_z.json su su SubjCode
+    sąrašu bei failų sąrašas list.json, abu jie įrašomi į diską.
  
 records_npy:
-yyyy.yyyyyyy.yyy.npy
-yyyy.yyyyyyy.yyy.npy
-....................
-....................
-....................
-yyyy.yyyyyyy.yyy.npy
-yyyy.yyyyyyy.yyy.npy
+yyyyyy.npy
+yyyyyy.npy
+yyyyyy.npy
+..........
+..........
+..........
+yyyyyy.npy
+yyyyyy.npy
 df_transl.csv
 info_create_z.json
-list.json
+list_npy.json  -> modifikuotas pridedant įrašų virtualius failo vardus SubjCode
  
  
-6.	4_zive_creat_beats_attrib_v2.ipynb - sukuria all_beats_attr, suformuoja label, RRl, RRr. Naudoja list.json,
+6.	4_zive_creat_beats_attrib_v3.ipynb - sukuria all_beats_attr, suformuoja label, RRl, RRr. Naudoja list.json,
     info_create_z.json
  
-records_npy:
-yyyy.yyyyyyy.yyy.npy
-yyyy.yyyyyyy.yyy.npy
-....................
-....................
-....................
-yyyy.yyyyyyy.yyy.npy
-yyyy.yyyyyyy.yyy.npy
+yyyyyy.npy
+yyyyyy.npy
+yyyyyy.npy
+..........
+..........
+..........
+yyyyyy.npy
+yyyyyy.npy
 df_transl.csv
 info_create_z.json
-list.json
+list_npy.json
 all_beats_attr.csv
  
 
