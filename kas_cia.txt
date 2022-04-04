@@ -1,9 +1,25 @@
 Čia sudėtos visos naujausios programos, dirbančios su VU algoritmais, po to, kai buvo pakeista Zive talpykla.
 Darbas pradėtas 2022 03 24.
 
-Visos programos saugomos github.com VU_APRIL projekte (kesju/Raktas135)
+ Naudojama tokia schema:
+- surenkami originalūs duomenys
+- transformuojami į vietinį formatą (surenkami paciento įrašai į vieną krūvą, atrenkami duomenys su ekstrasistolėmis,
+  virtuali numeracija, npy formatas, surenkami diskretizacijos dažnis, lygus 200 Hz)
+- padalijami pacientai į dalis mokymui, validavimui, testavimui    
 
-Bendra schema:
+Programos atkartoja duomenų struktūrą, kuri buvo ir anksčiau, kai kartu su duomenimis xxxxx.npy ir xxxxx.json,
+padalijus pacientus į train, validation dalis, pateikiami klasifikatoriaus kūrimui failai: all_beats_attr.csv,
+train_ind_lst.csv, validate_ind_lst. Tačiau didėjant imtims, šie pagalbiniai failai labai didėja ir gali sukelti
+problemas. 
+
+Todėl toliau planuojama vietoj failų all_beats_attr.csv, train_ind_lst.csv, validate_ind_lst, naudoti df_list_npy.json,
+train_lst.csv, validate_lst.csv  ir atitinkamas funkcijas, kurios formuoja seniau naudotus ind_lst. Planuojama,
+kad struktūra pasidarys vaizdesnė ir šie pagalbiniai failai bus mažesni. Gal net atsikratysime nuo df_list_npy
+(kuris suformuojams iš įrašų failų xxxxx.json).
+
+Visos programos saugomos github.com VU_APRIL projekte (kesju/Raktas135), nauja struktūra bus VU_MAY
+
+Dabartinės schemos (VU_APRIL) detalizacija:
  
 1.	Duomenys atsisiunčiami iš Zive ir įrašomi į aplanką buffer:
  
