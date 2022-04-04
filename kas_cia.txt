@@ -3,9 +3,11 @@ Darbas pradėtas 2022 03 24.
 
  Naudojama tokia schema:
 - surenkami originalūs duomenys
-- transformuojami į vietinį formatą (surenkami paciento įrašai į vieną krūvą, atrenkami duomenys su ekstrasistolėmis,
-  virtuali numeracija, npy formatas, surenkami diskretizacijos dažnis, lygus 200 Hz)
-- padalijami pacientai į dalis mokymui, validavimui, testavimui    
+- transformuojami į vietinį formatą (surenkami visi pacientų įrašai į vieną krūvą, tos krūvos yra apmažinamos
+  atrenkant įrašus su ekstrasistolėmis, įvedama virtuali numeracija, kurioje atsispindi įrašo priklausomybė pacientui,
+  pakeičiamas duomenų formatas į numpy formatą)
+- padalijami pacientai su savo įrašais į dalis mokymui, validavimui, testavimui ir suformuojami failai, kurie toliau 
+  naudojami klasifikatoriaus kūrimui.    
 
 Programos atkartoja duomenų struktūrą, kuri buvo ir anksčiau, kai kartu su duomenimis xxxxx.npy ir xxxxx.json,
 padalijus pacientus į train, validation dalis, pateikiami klasifikatoriaus kūrimui failai: all_beats_attr.csv,
