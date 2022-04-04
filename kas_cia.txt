@@ -90,7 +90,8 @@ list_npy.json  -> modifikuotas EKG įrašų atributų sąrašas pridedant įraš
  
  
 6.	4_zive_creat_beats_attrib_v3.ipynb - sukuria all_beats_attr, suformuoja label, RRl, RRr. Naudoja list.json,
-    info_create_z.json
+    info_create_z.json. Taip pat padalija pacientus į dalis: train, validate, test, sukuria tų dalių SubjCode
+    sąrašus ir įrašo juos į diską.
  
 yyyyyy.npy
 yyyyyy.json
@@ -102,21 +103,40 @@ yyyyyy.json
 df_transl.csv
 info_create_z.json
 list_npy.json
-train_beats_attr.csv
-test_beats_attr.csv
+all_beats_attr.csv
+train_lst.csv, validate_lst.csv, test_lst.validate
  
+7. 5_zive_prep_ind_v3_nbal.ipynb. Panaudojant pacientų įrašų vardų SubjCode sąrašus train_lst, validate_lst, 
+   test_lst iš disko, sukūriami atitinkami indeksų failai train_ind_lst, validate_ind_lst, test_ind_lst ir
+   įrašomi į diską. Kartu su duomenimis ir all_beats_attr, jie naudojami klasifikatorių kūrimui. 
+
+yyyyyy.npy
+yyyyyy.json
+..........
+..........
+..........
+yyyyyy.npy
+yyyyyy.json
+df_transl.csv
+info_create_z.json
+list_npy.json
+all_beats_attr.csv
+train_subjcode_lst.csv, validate_subjcode_lst.csv, test_subjcode_lst.csv
+train_ind_lst.csv, validate_ind_lst.csv, test_ind_lst.csv
+
+
 
 
 Bandymų medžiagai parengti buvo panaudotas skriptas convert_file_name.ipynb, kurio pagalba ankstesni failai su failu vardais,
 kurie buvo recordingID buvo paversti į failus su vardais file_name.
 
 Bandymams skirti 2 skriptai:
-5_zive_accuracy_cnn_vu_v1_test.ipynb
-5_zive_accuracy_cnn_vu_v2_test.ipynb
+6_zive_accuracy_cnn_vu_v1_test.ipynb
+6_zive_accuracy_cnn_vu_v2_test.ipynb
 
-5_zive_accuracy_cnn_vu_v1_test.ipynb- šitas variantas yra atsarginis, kad įsitikinti, kad klasifikacija dirba taip pat, kaip ir su 
+6_zive_accuracy_cnn_vu_v1_test.ipynb- šitas variantas yra atsarginis, kad įsitikinti, kad klasifikacija dirba taip pat, kaip ir su 
 originaliais įrašais, nepaverstais į npy formatą ir naudojant failų vardams SubjCode. Tačiau labiau naudotinas variantas
-5_zive_accuracy_cnn_vu_v2_test.ipynb, nes npy formatu dirba ir VU komanda.
+6_zive_accuracy_cnn_vu_v2_test.ipynb, nes npy formatu dirba ir VU komanda.
 
 Abu variantai turi galimybę išvesti ekstrasistolių vietas įraše, kurias galima toliau stebėti zive EKG grafiniame vaizde. 
 Dirbant su daug įrašų reiktų užblokuoti: classification = []  # Užblokuota
