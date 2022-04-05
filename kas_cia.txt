@@ -2,10 +2,11 @@
 Darbas pradėtas 2022 03 24.
 
  Naudojama tokia schema:
-- surenkami originalūs duomenys
-- transformuojami į vietinį formatą (surenkami visi pacientų įrašai į vieną krūvą, tos krūvos yra apmažinamos
-  atrenkant įrašus su ekstrasistolėmis, įvedama virtuali numeracija, kurioje atsispindi įrašo priklausomybė pacientui,
-  pakeičiamas duomenų formatas į numpy formatą)
+- surenkami originalūs anotuoti duomenys
+- transformuojami į vietinį formatą (surenkami visi pacientų įrašai į pacientų įrašų rinkinius, tie rinkiniai yra
+  apmažinami atrenkant įrašus su ekstrasistolėmis, įvedama virtuali numeracija, kurioje atsispindi įrašo 
+  priklausomybė pacientui, pakeičiamas duomenų formatas į numpy formatą). Tai įgalina patogiau dirbti su pacientais,
+  skaičiavimai dėl formato vyksta greičiau.
 - padalijami pacientai su savo įrašais į dalis mokymui, validavimui, testavimui ir suformuojami failai, kurie toliau 
   naudojami klasifikatoriaus kūrimui.    
 
