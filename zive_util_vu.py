@@ -229,7 +229,7 @@ def get_userId(rec_dir, userNr):
 def get_beat_attributes(idx, all_beats_attr):
     # Atnaujintas variantas, po to, kaip padaryti pakeitimai failų varduose 2022 03 26 
     row = all_beats_attr.loc[idx]
-    return row['userNr'], row['file_name'], row['label'], row['symbol'] 
+    return row['userNr'], row['recordingNr'], row['label'], row['symbol'] 
 
 def read_rec_attrib(rec_dir, SubjCode):
     # Pritaikyta nuskaityti json informaciją tiek mit2zive, tiek zive atvejams
