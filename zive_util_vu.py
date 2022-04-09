@@ -225,6 +225,28 @@ def get_userId(rec_dir, userNr):
     else:
         print("df_transl neegzistuoja")
 
+def get_filename(rec_dir, SubjCode):
+    userNr, recNr = split_SubjCode(SubjCode)
+    if (userNr < 1000):
+        return str(SubjCode)
+
+    # Patikriname, ar df_transl egzistuoja. 
+    file = Path(rec_dir, 'df_transl.csv')
+    if (file.exists()):
+        # Nuskaitome vardų žodyną iš rec_dir aplanko
+        file_path = Path(rec_dir, 'df_transl.csv')
+        df_transl = pd.read_csv(file_path, index_col=0)
+#       print(df_transl) 
+         # Panaudodami df masyvą df_transl su įrašų numeriais iš įrašų eilės numerių gauname ZIVE numerius
+        row = df_transl.loc[(df_transl['userNr'] == userNr) & (df_transl['recordingNr'] == recNr)]
+        if row.empty:
+            print("Klaida!")
+            return None
+        else:
+            return row['file_name'].values[0]  # naudojame values[0], nes gauname series elementą
+    else:
+        print("df_transl neegzistuoja")
+
 
 def get_beat_attributes(idx, all_beats_attr):
     # Atnaujintas variantas, po to, kaip padaryti pakeitimai failų varduose 2022 03 26 
