@@ -157,6 +157,7 @@ def create_SubjCode(userNr, recordingNr):
     """      
     # SubjCode = userNr + recordingNr
     # pvz. SubjCode = 10002
+    
     if (userNr < 1000):
         return userNr
     else:        
