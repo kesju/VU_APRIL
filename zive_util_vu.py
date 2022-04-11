@@ -166,6 +166,8 @@ def create_SubjCode(userNr, recordingNr):
         return SubjCode
 
 
+
+
 def split_SubjCode(SubjCode):
     """
     Atnaujintas variantas, po to, kaip padaryti pakeitimai failų varduose 2022 03 26
@@ -248,7 +250,11 @@ def get_filename(rec_dir, SubjCode):
     else:
         print("df_transl neegzistuoja")
 
-
+def get_SubjCode(idx, all_beats_attr):
+    row = all_beats_attr.loc[idx]
+    SubjCode = create_SubjCode(row['userNr'],  row['recordingNr'])
+    return SubjCode
+    
 def get_beat_attributes(idx, all_beats_attr):
     # Atnaujintas variantas, po to, kaip padaryti pakeitimai failų varduose 2022 03 26 
     row = all_beats_attr.loc[idx]
