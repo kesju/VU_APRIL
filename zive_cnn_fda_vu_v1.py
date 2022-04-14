@@ -261,9 +261,9 @@ def classify_cnn_fda_vu_v1(signal, atr_sample, model_dir, prediction_labels):
 def get_pred_symbols(pred_y, atr_sample, prediction_labels):
     classification=[]
     for i, i_sample in enumerate(atr_sample):
-        if (pred_y[i] != 3):
-            pred_symb = prediction_labels[pred_y[i]]
-            classification.append({'sample':i_sample, 'annotation':pred_symb})    
+        # if (pred_y[i] != 3):
+        pred_symb = prediction_labels[pred_y[i]]
+        classification.append({'sample':i_sample, 'annotation':pred_symb})    
     return classification
 
 
@@ -327,7 +327,7 @@ def predict_cnn_fda_vu_v1(signal, atr_sample, model_dir):
     pred_y[0] = 3
     pred_y[len(atr_sample)-1] = 3
 
-    if (omitted.empty == False):
+    if (omitted.empty != True):
         idxs = list(omitted['idx'].astype('int'))
         for i in range(len(idxs)):
             pred_y[idxs[i]] = 3
