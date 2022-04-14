@@ -297,6 +297,7 @@ def predict_cnn_fda_vu_v1(signal, atr_sample, model_dir):
                 '187', '188', '189', '190', '191', '192', '193', '194', '195', '196', '197', '198',
                 '199']
    
+    print("pradėjome predict_cnn_fda_vu_v1")
     # nuskaitome modelio parametrus
     model_path = Path(model_dir, 'best_model_final_2.h5')
     model = keras.models.load_model(model_path)
@@ -335,5 +336,8 @@ def predict_cnn_fda_vu_v1(signal, atr_sample, model_dir):
 # Sužymimi atpažinti pūpsniai 
     selected = data_frame.index.astype('int')
     pred_y[selected] = predictions_y
+    
+    # print(f"\natr_sample: {atr_sample[:40]}")
+
     return pred_y
 
